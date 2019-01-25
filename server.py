@@ -1,7 +1,25 @@
 #!/usr/bin/env python3
 
 # SETUP
+#
 # sudo pip3 install requests
+#
+# Create "config.py" with all the configurations:
+#
+# nano config.py 
+#
+# PASTE THIS:
+# ------------------------------------------
+# SERVER = '192.168.1.1:80'
+#
+# Username and Password must be inserted in CODE64 format, convert here: https://codebeautify.org/base64-encode
+# USER = 'user'
+# PASS = 'pass'
+#
+# IDX_INTERCOM = 'x'
+# API_URL = 'http://'+SERVER+'/json.htm'
+# ------------------------------------------
+#
 import config
 
 import time
