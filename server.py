@@ -78,6 +78,7 @@ def check_intercom():
 
   while True:
     voltaggio = float(chan.voltage)
+    time.sleep(0.1)
     if voltaggio > 1:
       ring_intercom()
 
