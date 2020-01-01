@@ -8,7 +8,7 @@ def on_message(client, userdata, msg):
 
 
 client.on_message = on_message
-client.username_pw_set(username="mosquitto", password="54mRqtt132")
+client.username_pw_set(username="", password="")
 client.connect("10.50.0.55")
 client.subscribe("citofono", qos=0)
 
