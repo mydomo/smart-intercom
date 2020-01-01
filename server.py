@@ -49,22 +49,18 @@ def ring_intercom():
   global num_attemps
 
   postdata = {'username':USER, 'password':PASS, 'type':'devices', 'rid':IDX_INTERCOM}
-  resp = requests.get(url=API_URL, params=postdata)
-  data = resp.json()
-
-  result = data['result'][0]['Status']
-
-  if (result == 'Off'):
-        postdata = {'username':USER, 'password':PASS, 'type':'command', 'param':'switchlight', 'idx':IDX_INTERCOM, 'switchcmd':'On'}
-        resp = requests.get(url=API_URL, params=postdata)
-        data = resp.json()
-        if data['status'] == 'OK':
-                num_attemps = 0
-        else:
-                num_attemps += 1
-                if num_attemps < 5:
-                  time.sleep(1)
-                  ring_intercom()
+  resp = requests.post(url=API_URL, params=postdata)
+  status_code = resp.status_code
+# print(status_code)
+  if (status_code == 200):
+        num_attemps = 0
+#       print("successo")
+  else:
+#        print("no successo")
+         num_attemps += 1
+         if num_attemps < 5:
+             time.sleep(1)
+             ring_intercom()
 
 ######## CHECK VOLTAGE SPIKES TO RECOGNIZE THE RING ######## 
 def check_intercom():
@@ -75,7 +71,6 @@ def check_intercom():
   ads = ADS.ADS1115(i2c)
   # Create single-ended input on channel 0
   chan = AnalogIn(ads, ADS.P0)
-
   while True:
     voltaggio = float(chan.voltage)
     time.sleep(0.1)
