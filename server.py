@@ -39,6 +39,7 @@ IDX_INTERCOM = config.IDX_INTERCOM
 API_URL = config.API_URL
 
 num_attemps = 0
+time_from_last_ring = 0
 
 def ring_intercom():
   global SERVER
@@ -51,7 +52,7 @@ def ring_intercom():
   postdata = {'username':USER, 'password':PASS, 'type':'devices', 'rid':IDX_INTERCOM}
   resp = requests.post(url=API_URL, params=postdata)
   status_code = resp.status_code
-# print(status_code)
+
   if (status_code == 200):
         num_attemps = 0
 #       print("successo")
@@ -64,6 +65,7 @@ def ring_intercom():
 
 ######## CHECK VOLTAGE SPIKES TO RECOGNIZE THE RING ######## 
 def check_intercom():
+  global time_from_last_ring
   ### ADC PART ###
   # Create the I2C bus
   i2c = busio.I2C(board.SCL, board.SDA)
@@ -75,7 +77,16 @@ def check_intercom():
     voltaggio = float(chan.voltage)
     time.sleep(0.1)
     if voltaggio > 1:
-      ring_intercom()
+      if (time.time() - time_from_last_ring) > 10:
+        time_from_last_ring = time.time()
+        ring_intercom()  
 
 if __name__ == '__main__':
   Thread(target=check_intercom).start()
+
+
+start = time.time()
+# run your code
+end = time.time()
+
+elapsed = end - start
