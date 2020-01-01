@@ -66,7 +66,7 @@ def ring_intercom():
 ######## CHECK VOLTAGE SPIKES TO RECOGNIZE THE RING ######## 
 def check_intercom():
   global time_from_last_ring
-  test_notification = True
+  test_notification = False
   ### ADC PART ###
   # Create the I2C bus
   i2c = busio.I2C(board.SCL, board.SDA)
